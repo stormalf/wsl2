@@ -66,17 +66,19 @@ I tested and it works fine with Centos7. With other Centos8-stream and Centos9-s
 
 ### steps
 
-sudo yum install nano
-sudo yum install cockpit
-sudo yum install xz
-sudo yum install virt-install virt-viewer virt-manager
-sudo yum install firewalld
-sudo yum install net-tools
-sudo yum install tar
-sudo yum install python3
-sudo systemctl start NetworkManager
-sudo yum install openssh-server
-sudo systemctl start sshd
+tools/packages needed :
+
+    sudo yum install nano
+    sudo yum install cockpit
+    sudo yum install xz
+    sudo yum install virt-install virt-viewer virt-manager
+    sudo yum install firewalld
+    sudo yum install net-tools
+    sudo yum install tar
+    sudo yum install python3
+    sudo systemctl start NetworkManager
+    sudo yum install openssh-server
+    sudo systemctl start sshd
 
 Check if no internet access the following file :
 cat /etc/resolv.conf
@@ -86,12 +88,13 @@ Check if you can ping google.com
 It seems that on wsl2 the crc setup replaces the content of /etc/resolv.conf with the following : nameserver 127.0.0.1
 
 Very important to allow the port 22 for ssh if not crc start will fail after lots of tries.
-sudo systemctl start firewalld
-sudo firewall-cmd --add-port=22/tcp --permanent
-sudo firewall-cmd --add-port=80/tcp --permanent
-sudo firewall-cmd --add-port=6443/tcp --permanent
-sudo firewall-cmd --add-port=443/tcp --permanent
-sudo systemctl restart firewalld
+
+    sudo systemctl start firewalld
+    sudo firewall-cmd --add-port=22/tcp --permanent
+    sudo firewall-cmd --add-port=80/tcp --permanent
+    sudo firewall-cmd --add-port=6443/tcp --permanent
+    sudo firewall-cmd --add-port=443/tcp --permanent
+    sudo systemctl restart firewalld
 
 ![crc setup](https://github.com/stormalf/wsl2/blob/main/wsl2_crc_setup.png)
 ![crc start](https://github.com/stormalf/wsl2/blob/main/wsl2_crc_start.png)
