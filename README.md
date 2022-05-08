@@ -34,11 +34,11 @@ Example of usage :
 
 distrod_wsl_launcher.exe -d Centos7
 
-[![distrod](https://github.com/stormalf/wsl2/blob/main/wsl2_distrod.png)]
-[!|linux distributions](https://github.com/stormalf/wsl2/blob/main/wsl2_distrod_linux_distributions.png)]
-[![centos distributions](https://github.com/stormalf/wsl2/blob/main/wsl2_distrod_centos.png)]
-[![centos7](https://github.com/stormalf/wsl2/blob/main/wsl2_distrod_centos7.png)]
-[![create an user](https://github.com/stormalf/wsl2/blob/main/wsl2_distrod_user.png)]
+![distrod](https://github.com/stormalf/wsl2/blob/main/wsl2_distrod.png)
+!|linux distributions](https://github.com/stormalf/wsl2/blob/main/wsl2_distrod_linux_distributions.png)
+![centos distributions](https://github.com/stormalf/wsl2/blob/main/wsl2_distrod_centos.png)
+![centos7](https://github.com/stormalf/wsl2/blob/main/wsl2_distrod_centos7.png)
+![create an user](https://github.com/stormalf/wsl2/blob/main/wsl2_distrod_user.png)
 
 ## cockpit
 
@@ -55,7 +55,7 @@ on Centos :
 
     check your localhost:9090 in your browser
 
-    [![cockpit](https://github.com/stormalf/wsl2/blob/main/wsl2_cockpit.png)]
+    ![cockpit](https://github.com/stormalf/wsl2/blob/main/wsl2_cockpit.png)
 
 ## crc
 
@@ -93,8 +93,8 @@ sudo firewall-cmd --add-port=6443/tcp --permanent
 sudo firewall-cmd --add-port=443/tcp --permanent
 sudo systemctl restart firewalld
 
-[![crc setup](https://github.com/stormalf/wsl2/blob/main/wsl2_crc_setup.png)]
-[![crc start](https://github.com/stormalf/wsl2/blob/main/wsl2_crc_start.png)]
+![crc setup](https://github.com/stormalf/wsl2/blob/main/wsl2_crc_setup.png)
+![crc start](https://github.com/stormalf/wsl2/blob/main/wsl2_crc_start.png)
 
 for now some issue with crc during starting on certificates renewing step.
 In case of issue you can find more information in cat /home/{your_user}/.crc/crc.log
