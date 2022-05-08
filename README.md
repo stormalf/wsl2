@@ -35,7 +35,7 @@ Example of usage :
 distrod_wsl_launcher.exe -d Centos7
 
 ![distrod](https://github.com/stormalf/wsl2/blob/main/wsl2_distrod.png)
-!|linux distributions](https://github.com/stormalf/wsl2/blob/main/wsl2_distrod_linux_distributions.png)
+![linux distributions](https://github.com/stormalf/wsl2/blob/main/wsl2_distrod_linux_distributions.png)
 ![centos distributions](https://github.com/stormalf/wsl2/blob/main/wsl2_distrod_centos.png)
 ![centos7](https://github.com/stormalf/wsl2/blob/main/wsl2_distrod_centos7.png)
 ![create an user](https://github.com/stormalf/wsl2/blob/main/wsl2_distrod_user.png)
