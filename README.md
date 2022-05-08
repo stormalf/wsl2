@@ -57,7 +57,7 @@ on Centos :
 
     ![cockpit](https://github.com/stormalf/wsl2/blob/main/wsl2_cockpit.png)
 
-## crc
+## Code Ready Workspaces (CRC) OpenShift Redhat
 
 Tested successfully on VMWARE workstation player. But some issues on wsl2.
 
@@ -98,6 +98,7 @@ sudo systemctl restart firewalld
 
 for now some issue with crc during starting on certificates renewing step.
 In case of issue you can find more information in cat /home/{your_user}/.crc/crc.log
+![crc issue](https://github.com/stormalf/wsl2/blob/main/wsl2_crc_issue.png)
 
 ## localstack
 
