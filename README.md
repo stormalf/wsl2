@@ -62,7 +62,7 @@ on Centos :
 Tested successfully on VMWARE workstation player. But some issues on wsl2.
 
 Openshift code ready workspace link : https://developers.redhat.com/products/codeready-workspaces/overview
-I tested and it works fine with Centos7. With other Centos8-stream and Centos9-stream I still have some issues.
+I tested with Centos7 one issue remaining. With other Centos8-stream and Centos9-stream I still have some issues.
 
 ### steps
 
