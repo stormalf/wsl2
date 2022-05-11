@@ -55,14 +55,14 @@ on Centos :
 
     check your localhost:9090 in your browser
 
-![cockpit](https://github.com/stormalf/wsl2/blob/main/wsl2_cockpit.png)
+    ![cockpit](https://github.com/stormalf/wsl2/blob/main/wsl2_cockpit.png)
 
 ## Code Ready Workspaces (CRC) OpenShift Redhat
 
 Tested successfully on VMWARE workstation player. But some issues on wsl2.
 
 Openshift code ready workspace link : https://developers.redhat.com/products/codeready-workspaces/overview
-I tested with Centos7 one issue remaining. With other Centos8-stream and Centos9-stream I still have some issues.
+I tested and it works fine with Centos7. With other Centos8-stream and Centos9-stream I still have some issues.
 
 ### steps
 
@@ -107,3 +107,13 @@ In case of issue you can find more information in cat /home/{your_user}/.crc/crc
 
 Very useful to be able to test some terraform stuff on localhost.
 Link : https://github.com/localstack/localstack.git
+
+## rdp
+
+using remote desktop connection to connect to WSL2.
+It installs using apt-get required packages and updates the config files after backup them and it starts the xrdp service.
+execute :
+
+        ./rdp/xrdp.sh
+
+![rdp](https://github.com/stormalf/wsl2/blob/main/rdp/wsl2_xrdp.png)
