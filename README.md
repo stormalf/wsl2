@@ -55,7 +55,7 @@ on Centos :
 
     check your localhost:9090 in your browser
 
-    ![cockpit](https://github.com/stormalf/wsl2/blob/main/wsl2_cockpit.png)
+![cockpit](https://github.com/stormalf/wsl2/blob/main/wsl2_cockpit.png)
 
 ## Code Ready Workspaces (CRC) OpenShift Redhat
 
