@@ -189,3 +189,6 @@ execute :
         ./rdp/xrdp.sh
 
 ![rdp](https://github.com/stormalf/wsl2/blob/main/rdp/wsl2_xrdp.png)
+
+
+For installing xrdp on centos8 : https://linuxize.com/post/how-to-install-xrdp-on-centos-8/ 
