@@ -91,6 +91,7 @@ WSL2 now takes in charge the systemd see more information on https://devblogs.mi
 In my centos version I had two issues :
 
 issue with systemctl --user : 
+
     time="2023-07-15T11:20:31+02:00" level=debug msg="Setting up crc-http.socket"
     time="2023-07-15T11:20:31+02:00" level=debug msg="Creating /home/stormalf/.config/systemd/user/crc-http.socket"
     time="2023-07-15T11:20:31+02:00" level=debug msg="Running 'systemctl --user daemon-reload'"
@@ -112,6 +113,7 @@ issue with systemctl --user :
 
 
 issue with network creation
+
     time="2023-07-15T12:52:12+02:00" level=debug msg="stderr: error: Failed to start network crc\nerror: error from service: changeZoneOfInterface: COMMAND_FAILED: 'python-nftables' failed: internal:0:0-0: Error: Could not process rule: No such file or directory\n\ninternal:0:0-0: Error: Could not process rule: No such file or directory\n\ninternal:0:0-0: Error: Could not process rule: No such file or directory\n\ninternal:0:0-0: Error: Could not process rule: No such file or directory\n\ninternal:0:0-0: Error: Could not process rule: No such file or directory\n\ninternal:0:0-0: Error: Could not process rule: No such file or directory\n\ninternal:0:0-0: Error: Could not process rule: No such file or directory\n\ninternal:0:0-0: Error: Could not process rule: No such file or directory\n\n\nJSON blob:\n{\"nftables\": [{\"metainfo\": {\"json_schema_version\": 1}}, {\"insert\": {\"rule\": {\"family\": \"inet\", \"table\": \"firewalld\", \"chain\": \"filter_INPUT_ZONES\", \"expr\": [{\"match\": {\"left\": {\"meta\": {\"key\": \"iifname\"}}, \"op\": \"==\", \"right\": \"crc\"}}, {\"goto\": {\"target\": \"filter_IN_libvirt\"}}]}}}, {\"insert\": {\"rule\": {\"family\": \"inet\", \"table\": \"firewalld\", \"chain\": \n"
     
     I removed firewalld and after it works better
@@ -119,12 +121,15 @@ issue with network creation
 After that the crc setup is completed successfully.
 
 I had also three issues with crc start :
+
 failed to initialize kvm:
+
     2023-07-15T11:27:07.595997Z qemu-kvm: failed to initialize KVM: Permission denied'
     
     Solved by chown root:kvm /dev/kvm
 
 Error starting machine: Error in driver during machine start: Unable to determine VM's IP address, did it fail to boot?
+
     But perhaps it takes too time to start. After a ./crc stop and ./crc start the ip 192.168.130.11 is ok
     PING 192.168.130.11 (192.168.130.11) 56(84) bytes of data.
     64 bytes from 192.168.130.11: icmp_seq=1 ttl=64 time=0.303 ms
@@ -134,12 +139,14 @@ Error starting machine: Error in driver during machine start: Unable to determin
     64 bytes from 192.168.130.11: icmp_seq=5 ttl=64 time=2.12 ms
 ^
 Error renewing certificates :
+
     INFO Kubelet client certificate has expired, renewing it... [will take up to 8 minutes]
     Failed to renew TLS certificates: please check if a newer CRC release is available: Temporary error: certificate /var/lib/kubelet/pki/kubelet-client-current.pem still expired (x59)
     
     This is caused by an old crc used. Downloading the last version from  https://developers.redhat.com/content-gateway/file/pub/openshift-v4/clients/crc/2.23.0/crc-linux-amd64.tar.xz
  
 After executing crc setup from crc-linux-2.23.0-amd64, the certificates expired issue is solved: 
+
     WARN Cannot add pull secret to keyring: The name org.freedesktop.secrets was not provided by any .service files
     INFO Updating SSH key to machine config resource...
     INFO Waiting until the user's pull secret is written to the instance disk...
