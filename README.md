@@ -117,7 +117,7 @@ issue with network creation
 
     time="2023-07-15T12:52:12+02:00" level=debug msg="stderr: error: Failed to start network crc\nerror: error from service: changeZoneOfInterface: COMMAND_FAILED: 'python-nftables' failed: internal:0:0-0: Error: Could not process rule: No such file or directory\n\ninternal:0:0-0: Error: Could not process rule: No such file or directory\n\ninternal:0:0-0: Error: Could not process rule: No such file or directory\n\ninternal:0:0-0: Error: Could not process rule: No such file or directory\n\ninternal:0:0-0: Error: Could not process rule: No such file or directory\n\ninternal:0:0-0: Error: Could not process rule: No such file or directory\n\ninternal:0:0-0: Error: Could not process rule: No such file or directory\n\ninternal:0:0-0: Error: Could not process rule: No such file or directory\n\n\nJSON blob:\n{\"nftables\": [{\"metainfo\": {\"json_schema_version\": 1}}, {\"insert\": {\"rule\": {\"family\": \"inet\", \"table\": \"firewalld\", \"chain\": \"filter_INPUT_ZONES\", \"expr\": [{\"match\": {\"left\": {\"meta\": {\"key\": \"iifname\"}}, \"op\": \"==\", \"right\": \"crc\"}}, {\"goto\": {\"target\": \"filter_IN_libvirt\"}}]}}}, {\"insert\": {\"rule\": {\"family\": \"inet\", \"table\": \"firewalld\", \"chain\": \n"
     
-    I removed firewalld and after it works better
+    I reinstalled firewalld and after it, it works better.
     
 After that the crc setup is completed successfully.
 
@@ -166,6 +166,17 @@ After executing crc setup from crc-linux-2.23.0-amd64, the certificates expired 
       $ oc login -u developer https://api.crc.testing:6443
     
 Finally we succeeded to have openshift Code ready containers running on wsl2!
+
+Note that sometimes crc cleanup fails to remove network in libvirt.
+In this case, I'm doing the following : 
+
+    sudo ip link show
+    sudo ifconfig crc down
+    sudo ip link delete crc-nic type bridge
+    sudo ip link delete crc type bridge
+    sudo virsh
+    net-list --all
+    net-undefine crc
 
 
 ![crc setup](https://github.com/stormalf/wsl2/blob/main/wsl2_crc_setup.png)
