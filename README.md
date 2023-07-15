@@ -203,3 +203,8 @@ execute :
 
 
 For installing xrdp on centos8 : https://linuxize.com/post/how-to-install-xrdp-on-centos-8/ 
+
+Note that in centos8 i didn't succeed to use xterm correctly I replaced by icewm that works better in my case : 
+
+    in /etc/X11/xinit/Xclients looks for PREFERRED and add the path to icewm-session
+    PREFERRED=/bin/icewm-session
