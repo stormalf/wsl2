@@ -1,6 +1,6 @@
 # wsl2
 
-some tips to have some tools working on WSL2 like cockpit or crc openshift using Distrod
+some tips to have some tools working on WSL2 like cockpit or distrod or crc openshift running on WSL2
 
 ## Distrod
 
@@ -60,10 +60,11 @@ Note that with the support of systemd in wsl you can now cockpit fully working o
 
 ## Code Ready Workspaces (CRC) OpenShift Redhat
 
-Tested successfully on VMWARE workstation player. But some issues on wsl2.
+Tested successfully on VMWARE workstation player and now also in WSL2!
 
 Openshift code ready workspace link : https://developers.redhat.com/products/codeready-workspaces/overview
-I tested and it works fine with Centos7. With other Centos8-stream and Centos9-stream I still have some issues.
+
+I tested and it works fine with Centos8.
 
 ### steps
 
