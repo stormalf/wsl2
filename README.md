@@ -208,3 +208,163 @@ Note that in centos8 i didn't succeed to use xterm correctly I replaced by icewm
 
     in /etc/X11/xinit/Xclients looks for PREFERRED and add the path to icewm-session
     PREFERRED=/bin/icewm-session
+
+
+## wsl kernel customization 
+
+Sometimes some kernel modules are required like for openstack vswitch.
+
+Like always before doing anything be sure to have a backup (of content of C:\Windows\System32\lxss\tools, a backup of wsl ext4.vhdx).
+
+To custom WSL2, you need to follow these steps :  (source from https://github.com/kevin-doolaeghe/wsl-kernel-modules)
+
+    sudo apt install bash-completion build-essential gcc g++ avr-libc avrdude default-jre default-jdk git clang make nano xz-utils wget
+    source .bashrc
+    sudo apt install flex bison libssl-dev libelf-dev git dwarves bc
+    wget https://github.com/microsoft/WSL2-Linux-Kernel/archive/refs/tags/linux-msft-wsl-$(uname -r | cut -d- -f 1).tar.gz
+    tar -xvf linux-msft-wsl-$(uname -r | cut -d- -f 1).tar.gz
+    cd WSL2-Linux-Kernel-linux-msft-wsl-$(uname -r | cut -d- -f 1)
+    cat /proc/config.gz | gunzip > .config
+    make prepare modules_prepare -j $(expr $(nproc) - 1)
+    make menuconfig -j $(expr $(nproc) - 1)
+
+now you need to find network and to select the vswitch module (navigate into the menu and save your changes).
+When it's done.
+
+    make modules -j $(expr $(nproc) - 1)
+    sudo make modules_install
+    make -j $(expr $(nproc) - 1)
+    sudo make install
+
+the new kernel image is called vmlinux.
+
+    cp vmlinux /mnt/c/Users/YOUR_USER/
+
+create or modify your .wslconfig file in c:\users\YOUR_USER\.wslconfig
+
+    nano /mnt/c/Users/YOUR_USER/.wslconfig
+    
+    [wsl2]
+    kernel=C:\\Users\\YOUR_USER\\vmlinux
+
+shutdown WSL2 
+
+    wsl --shutdown
+
+Start a terminal with administrator rights :
+
+    Restart-Service LxssManager
+
+Normally if it works well, you can restart wsl and go to /lib/modules to check if you see something like : 
+
+    cat /proc/modules
+        openvswitch 176128 3 - Live 0x0000000000000000
+        nsh 16384 1 openvswitch, Live 0x0000000000000000
+
+
+If your kernel seems to not load, check the content of C:\Windows\System32\lxss\tools and rename the old kernel to kernel.old and copy the new kernel vmlinux to this location and rename it to kernel. (Do it only if your kernel seems to be not loaded and be careful, it's not the recommended way).
+
+## openstack
+
+To be able to install openstack on WSL2 you need to custom WSL2 and add a module required by openstack called vswitch (see previous paragraph). 
+
+If all is ok, you can now install openstack by following the information from https://www.digitalocean.com/community/tutorials/install-openstack-ubuntu-devstack 
+
+    sudo apt update -y && sudo apt upgrade -y
+    sudo adduser --shell /bin/bash --home /opt/stack stack
+    echo "stack ALL=(ALL) NOPASSWD: ALL" | sudo tee /etc/sudoers.d/stack
+    su - stack
+    sudo apt install git -y
+    git clone https://git.openstack.org/openstack-dev/devstack
+    cd devstack
+
+create a local.conf :
+
+    nano local.conf
+
+copy the following replacing by your password and your ip address (ip a or ipconfig or ip addr): 
+
+    [[local|localrc]]
+
+    # Password for KeyStone, Database, RabbitMQ and Service
+    ADMIN_PASSWORD=StrongAdminSecret
+    DATABASE_PASSWORD=$ADMIN_PASSWORD
+    RABBIT_PASSWORD=$ADMIN_PASSWORD
+    SERVICE_PASSWORD=$ADMIN_PASSWORD
+    
+    # Host IP - get your Server/VM IP address from ip addr command
+    HOST_IP=xxx.xxx.xxx.xxx
+
+And execute the installation :
+    
+    ./stack.sh
+
+it takes long time perhaps more than 15 minutes and if all is ok you will find at the end something like that :
+    
+=========================
+DevStack Component Timing
+ (times are in seconds)
+=========================
+wait_for_service      16
+async_wait           164
+osc                  227
+apt-get               58
+test_with_retry        5
+dbsync                11
+pip_install          123
+apt-get-update         2
+run_process           28
+git_timed            218
+-------------------------
+Unaccounted time     149
+=========================
+Total runtime        1001
+
+=================
+ Async summary
+=================
+ Time spent in the background minus waits: 432 sec
+ Elapsed time: 1001 sec
+ Time if we did everything serially: 1433 sec
+ Speedup:  1.43157
+
+
+Post-stack database query stats:
++------------+-----------+-------+
+| db         | op        | count |
++------------+-----------+-------+
+| keystone   | SELECT    | 35246 |
+| keystone   | INSERT    |    93 |
+| neutron    | SELECT    |  4701 |
+| neutron    | CREATE    |   251 |
+| neutron    | SHOW      |    28 |
+| neutron    | INSERT    |  4114 |
+| neutron    | UPDATE    |   183 |
+| neutron    | ALTER     |    93 |
+| neutron    | DROP      |    47 |
+| neutron    | DELETE    |    26 |
+| placement  | SELECT    |    48 |
+| placement  | INSERT    |    56 |
+| placement  | SET       |     1 |
+| nova_api   | SELECT    |   114 |
+| nova_cell1 | SELECT    |   131 |
+| nova_cell0 | SELECT    |    78 |
+| nova_cell0 | INSERT    |     6 |
+| nova_cell0 | UPDATE    |     8 |
+| placement  | UPDATE    |     3 |
+| nova_cell1 | INSERT    |     4 |
+| nova_cell1 | UPDATE    |    24 |
+| cinder     | SELECT    |   115 |
+| cinder     | INSERT    |     5 |
+| cinder     | UPDATE    |     1 |
+| glance     | SELECT    |    49 |
+| glance     | INSERT    |     6 |
+| glance     | UPDATE    |     2 |
+| nova_api   | INSERT    |    20 |
+| nova_api   | SAVEPOINT |    10 |
+| nova_api   | RELEASE   |    10 |
+| cinder     | DELETE    |     1 |
++------------+-----------+-------+
+
+
+![openstack](https://github.com/stormalf/wsl2/blob/main/wsl2_openstack.png)
